@@ -5,10 +5,10 @@ Repositori ini berisi dokumen yang dibutuhkan untuk mengunggah program pada pera
 
 
 ## Library yang digunakan
-1. *Adafruit Unified Sensor*(https://github.com/adafruit/Adafruit_Sensor)
-2. *Adafruit ADS1x15*(https://github.com/adafruit/Adafruit_ADS1X15)
-3. *DS3232RTC*(https://github.com/JChristensen/DS3232RTC)
-4. *Low Power*(https://github.com/rocketscream/Low-Power)
+1. [*Adafruit Unified Sensor*](https://github.com/adafruit/Adafruit_Sensor)
+2. [*Adafruit ADS1x15*](https://github.com/adafruit/Adafruit_ADS1X15)
+3. [*DS3232RTC*](https://github.com/JChristensen/DS3232RTC)
+4. [*Low Power*](https://github.com/rocketscream/Low-Power)
 
 ## Sketch yang digunakan
 ### 1. Unit NRW

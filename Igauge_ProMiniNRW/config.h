@@ -1,25 +1,40 @@
+#define debug
+
+//boolean ada = 0;
+int i, kode, tahun;
+char karakter;
+byte indeksA, indeksB;
+byte bulan, hari, jam, menit, detik;
+unsigned long reads = 0; //pressure
+unsigned int reads1 = 0; //voltage
+unsigned long awal, akhir, start;
+float tekanan, volt;
+String kalimat;
+char apn[]="internet";
+String result, json;
+
+
+
+
 //VARIABLES
-char ID[5] = "0021";
-#define burst 5
-#define interval 2
+float Lat=0.123456;
+float Long=106.123456;
+
+const byte ID = 11; // unit ID
+#define burst 3 // second
+#define interval 2 // menit
 float offset = 0.0;
 String source = "GSM";
-#define baud 9600
+#define baud 115200
 
-String url = "/project/osh_2019/api/product/osh_data_c.php";
-String server = "http://www.mantisid.id";
-
-#define ads_addr    0x48
 #define rtc_addr    0x68
 #define pres            A1 //channel
 #define pres1            A2 //channel
 #define tegangan        A0 //channel
-#define Rled      3
 #define pwk        5
-#define Gled      2
 #define Bled      9
 #define connectPres         8
 
 #define wakeupPin 2
-boolean gsm = 0; // indikator GSM sedang tidur atau aktif
+boolean gsmTidur = 0; // indikator GSM sedang tidur atau aktif
 boolean GSMerror = 0; //indikator GSM error atau tidak

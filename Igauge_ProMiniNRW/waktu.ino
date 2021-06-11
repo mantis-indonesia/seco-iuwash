@@ -1,7 +1,36 @@
+void cekRTC(){
+  Serial.println(F("Cek RTC"));
+  Wire.begin();
+  Wire.beginTransmission(rtc_addr);
+  indeksA = Wire.endTransmission();
+  if (indeksA == 0) {
+    Serial.println(F("RTC ada"));
+  }
+  if (indeksA != 0) {
+    Serial.println(F("RTC Error"));
+    digitalWrite(13, HIGH);
+    while (1);
+  }
+  Wire.end();
+  setSyncProvider(RTC.get);
+}
+
+void ambilWaktu(){
+  Waktu = RTC.get();
+  tahun = year(Waktu);
+  bulan = month(Waktu);
+  hari = day(Waktu);
+  jam = hour(Waktu);
+  menit = minute(Waktu);
+  detik = second(Waktu);
+  alarmTime = Waktu + ALARM_INTERVAL;
+  
+}
+
 void cekwaktu() { // tidur hingga waktu pengambilan data yang disuruh
-  t = RTC.get();
-  printDateTime(t) ;
-  menit = minute(t);
+  Waktu = RTC.get();
+  printDateTime(Waktu) ;
+  menit = minute(Waktu);
   Serial.print(F("menit sekarang = "));
   Serial.println(menit);
   Serial.print("Tidur hingga ");
@@ -20,7 +49,7 @@ void cekwaktu() { // tidur hingga waktu pengambilan data yang disuruh
   Serial.println(" menit");
   Serial.flush();
 
-  alarmTime = t + menit * 60;  // calculate the alarm time
+  alarmTime = Waktu + menit * 60;  // calculate the alarm time
   Serial.print(hour(alarmTime));
   Serial.print(":");
   Serial.print(minute(alarmTime));
@@ -32,27 +61,6 @@ void cekwaktu() { // tidur hingga waktu pengambilan data yang disuruh
   // clear the alarm flag
   RTC.alarm(ALARM_1);
   RTC.alarmInterrupt(ALARM_1, true); // Enable alarm 1 interrupt A1IE
-}
-
-
-
-String strTwoDigit(float nilai) {
-  String result = String(nilai, 2);
-  String angka, digit;
-  indeksB = 0;
-  indeksA = result.indexOf(".", indeksB + 1);
-  digit = result.substring(indeksA + 1, result.length());
-  angka = result.substring(0, indeksA);
-  if (result.length() == 4) { //4.12
-    angka = "00" + angka + digit;
-  }
-  if (result.length() == 5) { //51.23
-    angka = "0" + angka + digit;
-  }
-  if (result.length() > 5) { //123.45
-    angka = angka + digit;
-  }
-  return angka;
 }
 
 void printDateTime(time_t t) {
@@ -69,8 +77,6 @@ void printDateTime(time_t t) {
   Serial.println(second(t));
   Serial.flush();
 }
-
-
 
 void clearRTC() {
   // initialize the alarms to known values, clear the alarm flags, clear the alarm interrupt flags

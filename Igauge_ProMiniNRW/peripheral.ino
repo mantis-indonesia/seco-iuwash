@@ -15,13 +15,23 @@ byte keep_ADCSRA;
 byte keep_SPCR;
 
 void indikator() {
-  pinMode(13, OUTPUT);
+  pinMode(Bled, OUTPUT);
   for (byte ind = 0; ind < 2; ind++) {
-    digitalWrite(13, HIGH);
+    digitalWrite(Bled, HIGH);
     LowPower.powerDown(SLEEP_120MS, ADC_OFF, BOD_OFF);
-    digitalWrite(13, LOW);
+    digitalWrite(Bled, LOW);
     LowPower.powerDown(SLEEP_500MS, ADC_OFF, BOD_OFF);
   }
+}
+
+void inisialisasi() {
+  Serial.begin(baud);
+  Serial.println(F("\r\nInisialisasi serial GSM"));
+  Serial.flush();
+  gsm.begin(baud);  // SIM900A
+  pinMode(13, OUTPUT);
+  pinMode(wakeupPin, INPUT_PULLUP); // Set interrupt pin
+
 }
 
 void timerOn() {

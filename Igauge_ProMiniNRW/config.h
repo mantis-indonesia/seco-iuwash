@@ -14,8 +14,6 @@ char apn[]="internet";
 String result, json;
 
 
-
-
 //VARIABLES
 float Lat=0.123456;
 float Long=106.123456;

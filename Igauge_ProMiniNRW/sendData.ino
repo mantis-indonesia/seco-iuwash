@@ -82,18 +82,8 @@ boolean TCPstart(unsigned long jeda, byte ulangan) {
 
 boolean TCPsend() {
   //siapkan variabel kode HTTP
-  //  char HTTP[4];
   kode = 0;
   char karakter = '.';
-
-  String output = "/graphql HTTP/1.1\r\nHost: 54.255.55.184:4000\r\n";
-  output += "Content-Type: application/json\r\n";
-  output += "Content-Length: ";
-  output += String(json.length());
-  output += "\r\n\r\n";
-  output += json;
-  output += (char)26;
-
 
   gsm.println(F("AT+CIPSEND"));
   //  gsm.println(output.length()+output1.length() - 1);
@@ -106,9 +96,17 @@ boolean TCPsend() {
   }
   if (karakter != '>') return 0;
   delay(100);
-  gsm.print("POST ");
+  gsm.print("POST /graphql HTTP/1.1\r\n");
+  gsm.print("Host: 54.255.55.184:4000\r\n");
+  gsm.print("Content-Type: application/json\r\n");
+  gsm.print("Content-Length: ");
+  gsm.print(json.length());
+  gsm.print("\r\n\r\n");
+  gsm.print(json);
+  
+//  output += (char)26;
+  
   //  readSerial(150);
-  gsm.print(output);
   readSerial(1500);
 
   //  readSerial(5000);
@@ -120,6 +118,7 @@ boolean TCPsend() {
   boolean nilai = 0;
   Serial.write(13);
   Serial.write(10);
+  gsm.write(26);
   while (millis() - waktuAwal < 15000 && nilai == 0) {
     nilai = gsm.find("SEND OK");
   }
@@ -162,10 +161,13 @@ boolean TCPsend() {
   Serial.print(" O");
   readSerial(500);
 
+
 #ifdef debug
   Serial.print(F("\r\n\r\nKODE="));
   Serial.println(kode);
 #endif
+
+
 
   return 1;
 

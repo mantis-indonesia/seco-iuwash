@@ -48,6 +48,7 @@ void setup() {
   //CHECK IF PRESSURE SENSOR CONNECTED
   s_on();
   Serial.print(F("Sensor tekanan "));
+  /*
   pinMode(connectPres, INPUT);
   indeksA = digitalRead(connectPres);
   if (indeksA == 1) {
@@ -62,7 +63,7 @@ void setup() {
       LowPower.powerDown(SLEEP_500MS, ADC_OFF, BOD_OFF);
     }
   }
-
+*/
   //nyala kan LED kalau sensor terhubung
   Serial.println(F("terhubung"));
   Serial.flush();

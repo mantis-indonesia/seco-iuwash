@@ -59,27 +59,27 @@ void setup() {
   Serial.println(F("Registrasi SIM"));
   regsim(); // registrasi GSM modul ke network
 
-  //atur waktu interupsi  
+  //atur waktu interupsi
   Serial.println(F("Atur Waktu Interupsi.\r\n I2C set di 400K")) ;
   Wire.setClock(400000) ;
   waktu(); // ambil data waktu dari RTC network
 
   //setSyncProvider(RTC.get);   // the function to get the time from the RTC
   GSMsleep(); //GSM modul tidur
-  
+
   clearRTC();
-//  Serial.print(F("waktu = "));
-//  cekwaktu();
+  Serial.print(F("waktu = "));
+  cekwaktu();
   kerja();
 }
 
 void loop() {
   sleepNow(); // Enter sleep
-
+  
   if ( RTC.alarm(ALARM_1) )  {
     kerja();
   }
-
+  
 }
 
 void kerja() {
@@ -96,9 +96,10 @@ void kerja() {
     GSMreset();
   }
 
-  ceksim(); // Cek GSM modul apakah terhubung
+  //  ceksim(); // Cek GSM modul apakah terhubung
   regsim(); // registrasi GSM modul ke network
   gprsComm();
+
   bersihdata();
 
   //AMBIL DATA SENSOR TEKANAN
@@ -107,8 +108,6 @@ void kerja() {
 
   //burst data 5 seconds
   for (i = 0; i < burst; i++) {
-    Serial.print("data ke-");
-    Serial.println(i+1);
     digitalWrite(led, HIGH);
     reads1 = analogRead(pres); //pressure
     reads = reads + reads1;
@@ -117,8 +116,8 @@ void kerja() {
     delay(700);
   }
 
+  
   //KONVERSI TEKANAN
-  tekanan = ((float)reads / (float)burst) / 1024.00 * 5.0; // nilai voltase dari nilai DN
 
   Serial.print(F("TEGANGAN SENSOR = "));
   Serial.println(tekanan);

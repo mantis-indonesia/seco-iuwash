@@ -202,6 +202,7 @@ void kerja() {
   Serial.flush();
   // set the alarm
   RTC.setAlarm(ALM1_MATCH_HOURS, 0, minute(alarmTime), hour(alarmTime), 0);
+  delay(100);
 }
 
 void bersihdata() {

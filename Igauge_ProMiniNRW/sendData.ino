@@ -1,26 +1,5 @@
 void dataJSON() {
-  json = "";
-
-  json = ( "\"s1\": ");
-  json = json + String (tekanan, 2);
-  json = json + ",\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n";
-  json = json + "\"b\": ";
-  json = json + String(volt, 2);
-  json = json + ",\r\n\"signature\": \"\",\r\n";
-  json = json + "\"device_code\": \"dev-code";
-  json = json + String(ID);
-  json = json + "\",\r\n";
-  json = json + "\"lat\": \"";
-  json = json + String(Lat, 6);
-  json = json + "\",\r\n";
-  json = json + "\"lon\": \"";
-  json = json + String(Long, 6);
-  delay(100);
-#ifdef debug
-  Serial.print("Data JSON=");
-  Serial.println(json);
-  Serial.flush();
-#endif
+  
 }
 
 boolean sendServer() {
@@ -106,7 +85,31 @@ boolean TCPsend() {
     }
   }
   if (karakter != '>') return 0;
+
+  json = "";
+  delay(10);
+
+  json = "\"s1\": " + String (tekanan, 2)+ ",\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n";
+  json.concat("\"b\": ");
+  json.concat(String(volt, 2));
+  json.concat(",\r\n\"signature\": \"\",\r\n");
+  json.concat("\"device_code\": \"dev-code");
+  json.concat(String(ID));
+  json.concat("\",\r\n");
+  json.concat("\"lat\": \"");
+  json.concat(String(Lat, 6));
+  json.concat("\",\r\n");
+  json.concat("\"lon\": \"");
+  json.concat(String(Long, 6));
   delay(100);
+#ifdef debug
+  Serial.print("Data JSON=");
+  Serial.println(json);
+  Serial.println(" ");
+  Serial.flush();
+#endif
+  delay(100);
+  
   gsm.print("POST /graphql HTTP/1.1\r\n");
   gsm.print("Host: 54.255.55.184:4000\r\n");
   gsm.print("Content-Type: application/json\r\n");
@@ -119,7 +122,7 @@ boolean TCPsend() {
   gsm.print("\"query\": \"mutation insert_data($data: DataCreateInput!) {insert_one_data(data: $data) {id}}\"\r\n}");
   gsm.flush();
   //  readSerial(150);
-  readSerial(1500);
+  readSerial(1000);
 
   //  readSerial(5000);
 

@@ -188,7 +188,6 @@ void readSerial(unsigned int wait) {
 
 void GSMreset() { //WAKE UP GSM
   Serial.println(F(" "));
-  Serial.println(F("AT+CSCLK=0"));
   gsm.println(F("AT+CSCLK=0"));
   Serial.flush();
   gsm.flush();

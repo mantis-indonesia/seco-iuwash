@@ -31,7 +31,7 @@ void setup() {
   pinMode(wakeupPin, INPUT_PULLUP); // Set interrupt pin
 
   //WELCOME SCREEN
-  Serial.println(F("\r\nGSM IGAUGE unit Training 5V 2021"));
+  Serial.println(F("\r\nGSM IGAUGE unit Instalasi 5V 2021"));
   Serial.print(F("Unit = "));
   Serial.println(ID);
   Serial.flush();

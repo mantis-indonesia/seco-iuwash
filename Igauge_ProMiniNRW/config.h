@@ -20,7 +20,7 @@ float Long=106.123456;
 
 const byte ID = 11; // unit ID
 #define burst 3 // second
-#define interval 1 // menit
+#define interval 2 // menit
 float offset = 0.0;
 String source = "GSM";
 #define baud 9600

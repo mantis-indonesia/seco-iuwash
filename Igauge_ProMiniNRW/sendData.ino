@@ -1,14 +1,26 @@
 void dataJSON() {
-  json = "{\r\n    \"operationName\": \"insert_data\",\r\n    \"variables\": {\r\n        \"data\": {\r\n            \"email\": \"admin@gmail.com\",\r\n            \"password\": \"admin!2357\",\r\n            ";
-  json += "\"s1\": " + String(tekanan, 2) + ",\r\n            \"s2\": 0,\r\n            \"s3\": 0,\r\n            ";
-  json += "\"b\": " + String(volt, 2) + ",\r\n            \"signature\": \"\",\r\n            ";
-  json += "\"device_code\": \"dev-code" + String(ID) + "\",\r\n            ";
-  json += "\"lat\": \"" + String(Lat, 6) + "\",\r\n            ";
-  json += "\"lon\": \"" + String(Long, 6) + "\"\r\n        }\r\n    },\r\n    ";
-  json += "\"query\": \"mutation insert_data($data: DataCreateInput!) {insert_one_data(data: $data) {id}}\"\r\n}";
-//#ifdef debug
-//  Serial.println(json);
-//#endif
+  json = "";
+
+  json = ( "\"s1\": ");
+  json = json + String (tekanan, 2);
+  json = json + ",\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n";
+  json = json + "\"b\": ";
+  json = json + String(volt, 2);
+  json = json + ",\r\n\"signature\": \"\",\r\n";
+  json = json + "\"device_code\": \"dev-code";
+  json = json + String(ID);
+  json = json + "\",\r\n";
+  json = json + "\"lat\": \"";
+  json = json + String(Lat, 6);
+  json = json + "\",\r\n";
+  json = json + "\"lon\": \"";
+  json = json + String(Long, 6);
+  delay(100);
+#ifdef debug
+  Serial.print("Data JSON=");
+  Serial.println(json);
+  Serial.flush();
+#endif
 }
 
 boolean sendServer() {
@@ -61,7 +73,6 @@ boolean TCPstart(unsigned long jeda, byte ulangan) {
     }
 
     readSerial(15);
-    Serial.println("\r\n");
     Serial.println(g);
     if (g == 'C' || g == 'A') {
       hasilTCP = 1;
@@ -100,12 +111,13 @@ boolean TCPsend() {
   gsm.print("Host: 54.255.55.184:4000\r\n");
   gsm.print("Content-Type: application/json\r\n");
   gsm.print("Content-Length: ");
-  gsm.print(json.length());
+  gsm.print(119 + json.length() + 105);
   gsm.print("\r\n\r\n");
+  gsm.print( "{\r\n\"operationName\": \"insert_data\",\r\n\"variables\": {\r\n\"data\": {\r\n\"email\": \"admin@gmail.com\",\r\n\"password\": \"admin!2357\",\r\n");
   gsm.print(json);
-  
-//  output += (char)26;
-  
+  gsm.print("\"\r\n}\r\n},\r\n");
+  gsm.print("\"query\": \"mutation insert_data($data: DataCreateInput!) {insert_one_data(data: $data) {id}}\"\r\n}");
+  gsm.flush();
   //  readSerial(150);
   readSerial(1500);
 

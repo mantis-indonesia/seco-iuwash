@@ -24,7 +24,8 @@ void ambilWaktu(){
   menit = minute(Waktu);
   detik = second(Waktu);
   alarmTime = Waktu + ALARM_INTERVAL;
-  
+
+  sprintf(sTime,"%d-%02d-%02dT%02d:%02d:%02d.000Z",tahun,bulan,hari,jam,menit,detik);
 }
 
 void cekwaktu() { // tidur hingga waktu pengambilan data yang disuruh

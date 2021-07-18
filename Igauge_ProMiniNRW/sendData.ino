@@ -1,9 +1,4 @@
-void dataJSON() {
-  
-}
-
 boolean sendServer() {
-  dataJSON();
   //HTTP initilization
   Serial.println(F("\r\n- MULAI TCP IP -"));
   boolean nilai = TCPstart(5000, 3);
@@ -90,17 +85,23 @@ boolean TCPsend() {
   delay(10);
 
   json = "\"s1\": " + String (tekanan, 2)+ ",\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n";
+  //  json = "\"s1\": 5,\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n"; // uji coba
   json.concat("\"b\": ");
   json.concat(String(volt, 2));
   json.concat(",\r\n\"signature\": \"\",\r\n");
-  json.concat("\"device_code\": \"dev-code");
+//  json.concat("\"device_code\": \"dev-code");
+  json.concat("\"device_code\": \"");
   json.concat(String(ID));
+  json.concat("\",\r\n");
+  json.concat("\"sTime\": \"");
+  json.concat(String(sTime));
   json.concat("\",\r\n");
   json.concat("\"lat\": \"");
   json.concat(String(Lat, 6));
   json.concat("\",\r\n");
   json.concat("\"lon\": \"");
   json.concat(String(Long, 6));
+  
   delay(100);
 #ifdef debug
   Serial.print("Data JSON=");
@@ -181,8 +182,6 @@ boolean TCPsend() {
   Serial.print(F("\r\n\r\nKODE="));
   Serial.println(kode);
 #endif
-
-
 
   return 1;
 

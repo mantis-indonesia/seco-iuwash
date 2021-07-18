@@ -116,10 +116,11 @@ void setup() {
   GSMsleep(); //GSM modul tidur
   on();
 
+  kerja();
   clearRTC();
   Serial.print(F("waktu = "));
   cekwaktu();
-  kerja();
+  
 }
 
 void loop() {
@@ -187,7 +188,10 @@ void kerja() {
   if (GSMerror == 0) {
     sendServer();
   }
-
+  delay(1000);
+  if (tekanan > batasAtas || tekanan < batasBawah) kirimSMS();
+  delay(1000);
+  
   //TURN OFF GSM MODULE
   GSMsleep();
 

@@ -82,10 +82,10 @@ boolean TCPsend() {
   if (karakter != '>') return 0;
 
   json = "";
-  Alarm.delay(10);
+  delay(10);
 
-//  json = "\"s1\": " + String (tekanan, 2)+ ",\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n";
-  json = "\"s1\": 5,\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n";// uji coba
+  json = "\"s1\": " + String (tekanan, 2)+ ",\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n";
+//  json = "\"s1\": 5,\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n";// uji coba
   json.concat("\"b\": ");
   json.concat(String(volt, 2));
   json.concat(",\r\n\"signature\": \"\",\r\n");
@@ -101,14 +101,14 @@ boolean TCPsend() {
   json.concat("\"lon\": \"");
   json.concat(String(Long, 6));
   
-  Alarm.delay(100);
+  delay(100);
 #ifdef debug
   Serial.print("Data JSON=");
   Serial.println(json);
   Serial.println(" ");
   Serial.flush();
 #endif
-  Alarm.delay(100);
+  delay(100);
   
   gsm.print("POST /graphql HTTP/1.1\r\n");
   gsm.print("Host: 54.255.55.184:4000\r\n");

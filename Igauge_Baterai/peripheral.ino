@@ -2,9 +2,9 @@ void indikator(byte led) {
   pinMode(led, OUTPUT);
   for (byte ind = 0; ind < 2; ind++) {
     digitalWrite(led, HIGH);
-    Alarm.delay(250);
+    delay(250);
     digitalWrite(led, LOW);
-    Alarm.delay(250);
+    delay(250);
   }
 }
 

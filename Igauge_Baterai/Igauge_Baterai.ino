@@ -5,15 +5,11 @@
 //LIBRARY
 #include <SoftwareSerial.h>
 SoftwareSerial gsm(6, 7); // RX, TX
-
-#include <TimeLib.h>
-#include <TimeAlarms.h>
-
-AlarmId id;
+//tmElements_t waktu;
 
 //custom library
 #include "config.h"
-
+#include <TimeLib.h>
 
 void setup() {
   //initialisation
@@ -80,8 +76,10 @@ void setup() {
   indikator(Gled);
 
   waktu();
-  kerja();
-  Alarm.timerRepeat(interval * 60, kerja);           // timer for every 15 seconds
+  detik = 30;
+    while (detik != 0) {
+      detik = second();
+    }
 }
 
 void bersihdata() {
@@ -89,16 +87,12 @@ void bersihdata() {
 }
 
 void loop() {
-  Alarm.delay(0);
-}
-
-void kerja() {
   Serial.println(F("\r\nMulai Ambil Data"));
   Serial.flush();
   bersihdata();
-
+  //  waktu=makeTime();
+  awal = millis();
   waktu(); //cek waktu dan tanggal dari network
-
 
   //AMBIL DATA SENSOR TEKANAN
   Serial.println(F("\r\nMulai Ambil Data"));
@@ -109,26 +103,37 @@ void kerja() {
     sendServer();
   }
 
-  if (tekanan > batasAtas || tekanan < batasBawah) kirimSMS();
-}
+  delay(250);
+  //  if (tekanan > batasAtas || tekanan < batasBawah) kirimSMS();
+  akhir = millis() - awal;
+  Serial.println(interval);
+  
 
-String strTwoDigit(float nilai) {
-  String result = String(nilai, 2);
-  String angka, digit;
-  indeksB = 0;
-  indeksA = result.indexOf(".", indeksB + 1);
-  digit = result.substring(indeksA + 1, result.length());
-  angka = result.substring(0, indeksA);
-  if (result.length() == 4) { //4.12
-    angka = "00" + angka + digit;
+  while (akhir < interval) { //menit * detik * milidetik
+    tahun = year();
+    bulan = month();
+    hari = day();
+    jam = hour();
+    menit = minute();
+    detik = second();
+    sprintf(sTime, "%d-%02d-%02dT%02d:%02d:%02d.000Z", tahun, bulan, hari, jam, menit, detik);
+
+    akhir = millis() - awal;
+    #ifdef debug
+    Serial.print(" ");
+    Serial.print(akhir);
+    Serial.print(" ");
+    Serial.print(interval);
+    Serial.print(" ");
+    Serial.println(sTime);
+    #endif
+    if(detik==0){
+      if(akhir >=interval-1000 && akhir <= interval) break;
+    }
+    
+    delay(500);
   }
-  if (result.length() == 5) { //51.23
-    angka = "0" + angka + digit;
-  }
-  if (result.length() > 5) { //123.45
-    angka = angka + digit;
-  }
-  return angka;
+
 }
 
 void ambilData() {
@@ -136,15 +141,20 @@ void ambilData() {
   for (indeksA = 0; indeksA < burst; indeksA++) {
     digitalWrite(Gled, HIGH);
     reads1 = analogRead(pres); //pressure
+    //DEBUG nlai analog sensor
+    Serial.print(indeksA + 1);
+    Serial.print("=");
+    Serial.println(reads1);
+
     if (reads1 < 0) {
       reads = reads + 0;
     }
     else {
       reads = reads + reads1;
     }
-    Alarm.delay(300);
+    delay(300);
     digitalWrite(Gled, LOW);
-    Alarm.delay(700);
+    delay(700);
   }
   //KONVERSI ADC KE TEKANAN
   tekanan = ((float)reads / (float)burst) / 1024.00 * 3.3 * 14700 / 10000; // nilai voltase dari nilai DN | nilai 1.5152 itu konversi sistem 3.3v menuju 5v

@@ -7,9 +7,9 @@ float batasAtas=6.0;
 float Lat=0.123456;
 float Long=106.123456;
 
-const char * ID = "DEMO#2"; // unit ID
-#define burst 3 // second
-#define interval 2 // menit
+const char * ID = "DEMO#6"; // unit ID
+byte burst =3 ;// second
+unsigned long interval = 120000; // menit * DETIK * MILIDETIK
 float offset = 0.0;
 String source = "GSM";
 #define baud 9600
@@ -21,7 +21,7 @@ byte indeksB=5;
 byte bulan, hari, jam, menit, detik;
 unsigned long reads = 0; //pressure
 unsigned int reads1 = 0; //voltage
-unsigned long awal, akhir, start;
+unsigned long awal, akhir,start;
 float tekanan, volt;
 String kalimat;
 char apn[]="internet";

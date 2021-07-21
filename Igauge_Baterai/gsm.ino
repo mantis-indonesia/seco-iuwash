@@ -14,7 +14,7 @@ void ceksim() { ///CONNECT AT
       GSMerror = 1;
       indikator(Bled);
     }
-    Alarm.delay(500);
+    delay(500);
   }
 }
 
@@ -25,7 +25,7 @@ void regsim() {
   Serial.println(F("Set Functionality"));
   gsm.println(F("AT+CFUN=1"));
   readSerial(200);
-  Alarm.delay(1500);
+  delay(1500);
 
   //opsi jika tidak terhubung ke network
   indeksA = 0;
@@ -51,14 +51,14 @@ void sim() {
   Serial.println(F("Registrasi Network"));
   gsm.println(F("AT+CREG=1"));
   readSerial(500);
-  Alarm.delay(1500);
+  delay(1500);
 
   //CARI OPERATOR KARTU
   Serial.println(F("Cari operator"));
   gsm.println(F("AT+COPS?"));
   Serial.flush();
   gsm.flush();
-  Alarm.delay(200);
+  delay(200);
   while (gsm.available() > 0) {
     if (gsm.find("+COPS:")) {
       while (gsm.available() > 0) {
@@ -79,7 +79,7 @@ void sim() {
   Serial.flush();
   if (json.length() == 0) GSMerror = 1;
   if (json.length() > 0) GSMerror = 0;
-  Alarm.delay(1500);
+  delay(1500);
 }
 
 void waktu() {
@@ -87,7 +87,7 @@ void waktu() {
   Serial.println(F("Minta waktu lokal ke network GSM"));
   gsm.println(F("AT+CLTS=1"));
   readSerial(500);
-  Alarm.delay(500);
+  delay(500);
   gsm.println(F("AT+CCLK?"));
   kalimat = "";
   start = millis();
@@ -100,7 +100,7 @@ void waktu() {
   gsm.flush();
   Serial.println(kalimat);
   Serial.flush();
-  Alarm.delay(500);
+  delay(500);
   tmElements_t tm;
   //parse string
   indeksB = 0;
@@ -157,7 +157,7 @@ byte ConnectAT(String cmd, int d) {
       if (gsm.find("OK"))
         i = 20;
     }
-    Alarm.delay(d);
+    delay(d);
     if (i > 5) {
       break;
     }
@@ -182,13 +182,13 @@ void GSMreset() { //WAKE UP GSM
   gsm.println(F("AT+CSCLK=0"));
   Serial.flush();
   gsm.flush();
-  Alarm.delay(200);
+  delay(200);
   gsm.println(F("AT+CSCLK=0"));
   gsm.flush();
   readSerial(200);
   Serial.flush();
   gsm.flush();
-  Alarm.delay(2000);
+  delay(2000);
 //  LowPower.powerDown(SLEEP_2S, ADC_OFF, BOD_OFF);
 }
 
@@ -204,7 +204,7 @@ void GSMturnoff() {
   gsm.println(F("AT+CPOWD=0"));
   gsm.flush();
   readSerial(200);
-  Alarm.delay(200);
+  delay(200);
 }
 
 void kirimSMS() {

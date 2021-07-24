@@ -11,8 +11,6 @@
 
   18/7/2021
   Pemindahan ke server mantis baru
-  22/7/2021
-  Fiksasi
 */
 
 //LIBRARY
@@ -46,7 +44,7 @@ IPAddress    apIP(10, 10, 10, 1);
 
 //OLED
 #define OLED_RESET -1
-Adafruit_SSD1306 display(panjang, lebar,&Wire,OLED_RESET);
+Adafruit_SSD1306 display(panjang, lebar, &Wire, OLED_RESET);
 int16_t posx;
 int16_t posy;
 uint16_t w, h;
@@ -74,7 +72,7 @@ void setup() {
   //WELCOME SCREEN
   Serial.println(F("\r\nWIFI IGAUGE V 2019"));
   Serial.flush();
-  
+
   display.begin(SSD1306_SWITCHCAPVCC, oled);
   display.clearDisplay();
   // display.display();
@@ -242,12 +240,12 @@ void setup() {
   display.setCursor((128 - w) / 2, 20);
   display.print(F("OPEN WIFI"));
   display.getTextBounds((char*)hotspot.c_str(), 0, 0, &posx, &posy, &w, &h);
-  display.setCursor((128 - w) / 2, 35);
+  display.setCursor((128 - w) / 2, 30);
   display.print(hotspot);
   display.display();
   delay(500);
   display.getTextBounds(F("ip=10.10.10.1"), 0, 0, &posx, &posy, &w, &h);
-  display.setCursor((128 - w) / 2, 50);
+  display.setCursor((128 - w) / 2, 40);
   display.print(F("IP="));
   display.print(apIP);
   display.display();
@@ -261,6 +259,7 @@ void setup() {
   Serial.print("reset button ");
   Serial.println(reads);
 
+
   //WIFI MANAGER
   //connect to network
   WiFiManager wifiManager;
@@ -270,6 +269,11 @@ void setup() {
   wifiManager.setBreakAfterConfig(true);
 
   if ( reads < 10 ) {
+    display.getTextBounds(F("RESET"), 0, 0, &posx, &posy, &w, &h);
+    display.setCursor((128 - w) / 2, 50);
+    display.print(F("RESET"));
+    display.display();
+    delay(2000);
     wifiManager.resetSettings();
     wifiManager.setAPStaticIPConfig(apIP, apIP, IPAddress(255, 255, 255, 0)); //IP, Gateway, DNS
     IPAddress myIP = WiFi.softAPIP();
@@ -306,9 +310,9 @@ void setup() {
   display.getTextBounds(sdcard, 0, 0, &posx, &posy, &w, &h);
   display.setCursor((128 - w) / 2, 50);
   display.print(filename);
-  display.display();  
-//  WiFi.mode(WIFI_STA);
-  
+  display.display();
+  //  WiFi.mode(WIFI_STA);
+
 
   //Waktu NTP
   timeClient.begin();
@@ -338,11 +342,11 @@ void setup() {
 
   display.display();
 
-//waktu tunggu
-detik=30;
-while(detik!=0){
-  displaydate();
-}
+  //waktu tunggu
+  detik = 30;
+  while (detik != 0) {
+    displaydate();
+  }
   //display.setCursor(100,52);  display.print(F("ERR"));
 }
 
@@ -350,16 +354,16 @@ void loop() {
   waktu = millis();
   bersihdata();
   Serial.println(sTime);
-//  Serial.println("ready 3to get data"); 
+  //  Serial.println("ready 3to get data");
 
   // burst sampling
   reads1 = 0; reads = 0;
   for (i = 0; i < burst; i++) {
     reads1 = ads.readADC_SingleEnded(1); //pressure
     //nilai ads sensor #debug
-//    Serial.print(i);    
-//    Serial.print("=");
-//    Serial.println(reads1);
+    //    Serial.print(i);
+    //    Serial.print("=");
+    //    Serial.println(reads1);
     if (reads1 < 0) {
       reads = reads + 0;
     }
@@ -368,13 +372,13 @@ void loop() {
     }
     delay(1000);
   }
-  
-//  reads=random(0,30000);
-//  Serial.println(reads);
+
+  //  reads=random(0,30000);
+  //  Serial.println(reads);
   //KONVERSI
   volt = ((float)reads / (float)burst) * 0.1875 / 1000.0000; // nilai voltase dari nilai DN
   volt = volt * 147.00 / 100.00;
-//  Serial.println(volt);
+  //  Serial.println(volt);
   tekanan = (300.00 * volt - 150.00) * 0.01 + float(offset);
   if (tekanan < 0) tekanan = 0;
   reads = ads.readADC_SingleEnded(tegangan);
@@ -396,7 +400,7 @@ void loop() {
   Serial.println(humid, 1);
   Serial.print(F("VOLTAGE = "));
   Serial.println(volt, 1);
-  
+
 
   //display data
   display.fillRect(40, 17, 32, 64, BLACK); //clear display
@@ -407,7 +411,7 @@ void loop() {
   display.setCursor(40, 40);  display.print(humid, 1);
   display.setCursor(40, 50);  display.print(volt, 1);
   display.display();
-  
+
 
   //SIMPAN DATA
   Serial.println("Simpan data");

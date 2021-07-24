@@ -2,9 +2,10 @@
 // nilai lain kalau tidak ada maka diberi -1
 
 #define debug
-String noHP="+6285958553254";
-float batasBawah=5.6;
-float batasAtas=6.0;
+String noHP="+6285719710297";
+float batasBawah=1.0;
+float batasAtas=1.1;
+byte batas=0;
 
 //boolean ada = 0;
 int i, kode, tahun;
@@ -28,13 +29,13 @@ float Lat=-6.561963;
 float Long=106.724292;
 
 //const byte ID = 11; // unit ID
-//const char * ID = "DEP_J_GTA#01"; // unit ID
+//const char * ID = "GRITA#1"; // unit ID
 //const char * ID = "DEP_P_CLKP#01"; // unit ID
 //const char * ID = "DEP_P_TD#01"; // unit ID pompa taman duta KP 1
 //const char * ID = "DEP_P_TD#02"; // unit ID
-//const char * ID = "DEP_B_SKTN#01"; // unit ID
+const char * ID = "SUKATANI#1"; // unit ID
 //const char * ID = "DEP_J_MTD#01"; // unit ID
-//const char * ID = "DEP_J_PSM#01"; // unit ID
+//const char * ID = "PESONA#1"; // unit ID
 //const char * ID = "DEP_P_RAN#01"; // unit ID
 //const char * ID = "DEP_P_WFI#01"; // unit ID
 //const char * ID = "DEMO#01"; // unit ID
@@ -45,7 +46,7 @@ float Long=106.724292;
 //const char * ID = "DEMO#8"; // unit ID
 //const char * ID = "DEMO#9"; // unit ID
 //const char * ID = "DEMO#10"; // unit ID
-const char * ID = "DEMO#13"; // unit ID
+//const char * ID = "DEMO#13"; // unit ID
 #define burst 3 // second
 #define interval 2 // menit
 float offset = 0.0;

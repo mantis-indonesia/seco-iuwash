@@ -17,7 +17,7 @@
 
 #ifdef promini
 #include <SoftwareSerial.h>
-SoftwareSerial gsm(6, 7); // RX, TX
+SoftwareSerial gsm(6, 7); // RX uno ke TX GSM, TX uno ke RX GSM
 #else
 #define gsm Serial1
 #endif
@@ -141,13 +141,13 @@ void kerja() {
   printDateTime(Waktu) ;
 
   //nyalakan GSM jika mati
-  if (gsm == 1) {
-    Serial.println(F("Nyalakan GSM"));
-    GSMreset();
-  }
+//  if (gsm == 1) {
+//    Serial.println(F("Nyalakan GSM"));
+//    GSMreset();
+//  }
 
   //  ceksim(); // Cek GSM modul apakah terhubung
-  regsim(); // registrasi GSM modul ke network
+//  regsim(); // registrasi GSM modul ke network
   gprsComm();
 
   bersihdata();
@@ -189,11 +189,19 @@ void kerja() {
     sendServer();
   }
   delay(1000);
-  if (tekanan > batasAtas || tekanan < batasBawah) kirimSMS();
+  if (tekanan > batasAtas || tekanan < batasBawah){
+    batas++;
+  }
+  else batas = 0;
+
+  
+  if (batas > 0 && batas <= 3 && (tekanan > batasAtas || tekanan < batasBawah)){
+    kirimSMS();  
+  }
   delay(1000);
   
   //TURN OFF GSM MODULE
-  GSMsleep();
+//  GSMsleep();
 
   //atur waktu tidur hingga waktu pengambilan data berikutnya
 //  on();

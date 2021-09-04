@@ -139,7 +139,7 @@ void waktu() {
   //  Serial.println(menit);
   //  Serial.println(detik);
 
-  if (tahun >= 2019) {
+  if (tahun >= 2019 && tahun <2080) {
     tm.Year = CalendarYrToTm(tahun);
     tm.Month = bulan;
     tm.Day = hari;
@@ -150,7 +150,8 @@ void waktu() {
     RTC.set(Waktu); 
     setTime(Waktu);
   }
-
+  else ambilWaktu();
+  
   printDateTime(Waktu);
   Serial.flush();
 //  off();
@@ -220,20 +221,24 @@ void kirimSMS() {
   gsm.flush();
   readSerial(200);
 
-  gsm.print(F("PERINGATAN!!!\r\n Nilai tekanan unit "));
-  gsm.print(ID);
-  gsm.print(F(" berada "));
+  sprintf(sTime,"%d-%02d-%02d %02d:%02d",tahun,bulan,hari,jam,menit);
+//  gsm.print(F("PERINGATAN!!!\r\n"));
+  gsm.println(sTime);
+  gsm.print(F("Unit "));
+  gsm.println(ID);
+  gsm.println(F("Tekanan ="));
+  gsm.print(tekanan);
+  gsm.println(F(" bar\r\n"));
+  gsm.print(F("KONDISI BERADA "));
   if (tekanan < batasBawah){
-    gsm.print(F("di bawah"));
+    gsm.print(F("DI BAWAH"));
   
   }
   if (tekanan > batasAtas){
-    gsm.print(F("di atas"));
+    gsm.print(F("DI ATAS"));
   }
 
-  gsm.print(F(" ambang batas.\r\nNilai = "));
-  gsm.print(tekanan);
-  gsm.println(F(" bar"));
+  gsm.print(F(" AMBANG BATAS!"));
   gsm.flush();
   readSerial(500);
   gsm.write(26);

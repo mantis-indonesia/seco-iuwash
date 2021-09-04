@@ -23,6 +23,12 @@ void ambilWaktu(){
   jam = hour(Waktu);
   menit = minute(Waktu);
   detik = second(Waktu);
+  
+  if (tahun >= 2080 || tahun < 2021){
+  waktu();
+  Waktu = RTC.get();
+  }
+
   alarmTime = Waktu + ALARM_INTERVAL;
 
   sprintf(sTime,"%d-%02d-%02dT%02d:%02d:%02d.000Z",tahun,bulan,hari,jam,menit,detik);

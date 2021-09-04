@@ -30,8 +30,8 @@ float Long=106.724292;
 
 //const byte ID = 11; // unit ID
 //const char * ID = "GRITA#1"; // unit ID
-//const char * ID = "DEP_P_CLKP#01"; // unit ID
-//const char * ID = "DEP_P_TD#01"; // unit ID pompa taman duta KP 1
+//const char * ID = "CILANGKAP#1"; // unit ID
+//const char * ID = "POMPATD#1"; // unit ID pompa taman duta KP 1
 //const char * ID = "DEP_P_TD#02"; // unit ID
 const char * ID = "SUKATANI#1"; // unit ID
 //const char * ID = "DEP_J_MTD#01"; // unit ID

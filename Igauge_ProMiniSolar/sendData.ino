@@ -13,8 +13,8 @@ boolean sendServer() {
 
   //HTTP TERMINATE
   Serial.println(F("\r\n- TUTUP TCP IP -"));
-  TCPclose(200);
-  gprsShut(300);
+  TCPclose(500);
+  gprsShut(500);
 
   while (Serial.available()) Serial.read();
 
@@ -86,7 +86,7 @@ boolean TCPsend() {
   delay(10);
 
   json = "\"s1\": " + String (tekanan, 2)+ ",\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n";
-  //  json = "\"s1\": 5,\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n"; // uji coba
+//  json = "\"s1\": 5,\r\n\"s2\": 0,\r\n\"s3\": 0,\r\n"; // uji coba
   json.concat("\"b\": ");
   json.concat(String(volt, 2));
   json.concat(",\r\n\"signature\": \"\",\r\n");
